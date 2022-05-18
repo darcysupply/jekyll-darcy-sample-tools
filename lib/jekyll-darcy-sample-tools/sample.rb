@@ -12,16 +12,16 @@ module JekyllDarcySampleTools
         # create the json data
         sample_file_data = {
             "sampleExportVersion": 1.0,
-            "palettes" =>  {
+            "palettes" =>  [{
                 "name" => palette["name"],
                 "colors" => JekyllDarcySampleTools::split_hex_color_list(palette["colors"]).map { |color_values|
                     {
                         "valuesFormat" => 0,
                         "values" => [color_values["r"], color_values["g"], color_values["b"]],
-                        "alphaValue" => 0
+                        "alphaValue" => 1
                     }
                 }
-            }
+            }]
         }.to_json
 
         filename = "#{palette['name']}.sample"
@@ -32,10 +32,8 @@ module JekyllDarcySampleTools
 
         FileUtils.mkpath(staging_directory) unless File.directory?(staging_directory)
 
-        if !File.file?(staging_path)
-            File.open(staging_path, 'w') do |file|
-                file.write(sample_file_data)
-            end
+        File.open(staging_path, 'w') do |file|
+            file.write(sample_file_data)
         end
         
         new_jekyll_asset(site, JekyllDarcySampleTools::config_staging_path(site.config), directory, filename)
