@@ -30,7 +30,6 @@ module JekyllDarcySampleTools
         staging_directory = File.join(JekyllDarcySampleTools::config_staging_path(site.config), directory)
         staging_path = File.join(staging_directory, filename)
 
-        puts staging_directory.inspect
         FileUtils.mkpath(staging_directory) unless File.directory?(staging_directory)
 
         if !File.file?(staging_path)
